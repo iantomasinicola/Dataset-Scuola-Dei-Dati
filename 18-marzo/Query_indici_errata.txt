@@ -1,0 +1,20 @@
+/*Occorre sostituire l'ultima espressione nella SELECT con
+STRING_AGG(c.name, ', ') 
+	WITHIN GROUP (ORDER BY CASE WHEN ic.key_ordinal = 0 THEN 999
+								ELSE ic.key_ordinal END) AS Colonne
+*/
+
+SELECT 
+    t.name AS Tabella,
+    i.name AS Indice,
+    i.type_desc AS Tipo,
+    i.is_primary_key,
+    i.is_unique,
+    STRING_AGG(c.name, ', ') WITHIN GROUP (ORDER BY ic.key_ordinal) AS Colonne
+FROM sys.indexes i
+JOIN sys.tables t ON i.object_id = t.object_id
+JOIN sys.index_columns ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+JOIN sys.columns c ON ic.object_id = c.object_id AND ic.column_id = c.column_id
+WHERE i.name IS NOT NULL
+GROUP BY t.name, i.name, i.type_desc, i.is_primary_key, i.is_unique
+ORDER BY t.name, i.name

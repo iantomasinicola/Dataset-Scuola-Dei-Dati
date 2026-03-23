@@ -1,0 +1,16 @@
+/*Lentissima su SQL Server
+Veloce su MySQL*/
+SELECT *
+FROM Fatture 
+WHERE DataFattura = '2020-08-12'
+       OR DataFattura = (SELECT MAX(DataArrivoEffettiva) FROM Fatture)
+
+/*Lentissima su MySQL
+Veloce su SQL Server*/
+SELECT *
+FROM   Fatture 
+WHERE DataFattura IN 
+          (SELECT MAX(DataArrivoEffettiva) as Data 
+		   FROM Fatture
+			    UNION ALL
+		   SELECT '2020-08-12');
