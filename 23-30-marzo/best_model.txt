@@ -1,0 +1,27 @@
+============================================================
+BEST MODEL - PIPELINE DEFINITIVA
+============================================================
+
+Algoritmo: KNN
+CV Accuracy (5-fold): 0.9423
+Test Accuracy: 0.8974
+Test F1 (weighted): 0.9003
+AUC ROC: 0.9517
+
+Iperparametri ottimali:
+  clf__metric: euclidean
+  clf__n_neighbors: 5
+  clf__weights: distance
+  reduction: SelectKBest(k=15)
+  scaler: MinMaxScaler()
+
+Pipeline completa (ricostruibile):
+Pipeline(steps=[('scaler', MinMaxScaler()), ('reduction', SelectKBest(k=15)),
+                ('clf',
+                 KNeighborsClassifier(metric='euclidean', weights='distance'))])
+
+Per ricostruire la pipeline:
+  from sklearn.pipeline import Pipeline
+  # Copiare i parametri sopra nella configurazione del modello
+  # Usare train_test_split(X, y, test_size=0.2, random_state=0)
+  # Usare StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
